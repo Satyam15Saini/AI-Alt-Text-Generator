@@ -1,87 +1,51 @@
-# Ì∫Ä AI-Powered Image Alt-Text Generator
+# AI-Powered Image Alt-Text Generator
 
-[![Live Demo](https://img.shields.io/badge/Ì¥ó%20Live%20Demo-Visit%20Now-brightgreen?style=for-the-badge)](https://ai-alt-text-generator-six-black.vercel.app/static/index.html)
-[![Python](https://img.shields.io/badge/Python-3.9+-blue?style=flat-square&logo=python)](https://python.org)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.110-brightgreen?style=flat-square&logo=fastapi)](https://fastapi.tiangolo.com)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Now-brightgreen?style=for-the-badge&logo=vercel)](https://ai-alt-text-generator-six-black.vercel.app/static/index.html)
+[![Python](https://img.shields.io/badge/Python-3.9+-blue?style=flat&logo=python)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110-brightgreen?style=flat&logo=fastapi)](https://fastapi.tiangolo.com)
+[![License](https://img.shields.io/badge/License-MIT-yellow?style=flat)](LICENSE)
 
----
+A web application that automatically generates highly accurate, WCAG-compliant short and long alt-text for uploaded images using the Google Gemini (`gemini-2.5-flash`) Generative AI vision model via REST API.
 
-## **Ìºü Overview**
+## :sparkles: Features
+- **:robot: Generative AI Vision**: Automatically analyzes images to generate accessibility-ready alt text.
+- **:gear: Strict Formatting Engine**: Enforces accessibility rules natively (e.g., specific starting articles, simple present tense, no symbols for math/charts, no inferences/colors).
+- **:art: Intuitive Web Interface**: Built with modern HTML/CSS/JS, featuring a drag-and-drop zone and image previews.
+- **:wheelchair: Accessible Design (WCAG)**: Dark mode layout with high-contrast UI and immediate feedback states.
+- **:clipboard: 1-Click Copy**: Easily copy the generated short or long alt text to your clipboard.
 
-A web application that generates accurate, accessibility-friendly alt text for images using AI. It helps make images WCAG-compliant by producing both short and long descriptions automatically.
+## :rocket: Live Demo
 
----
+[![Try it Live](https://img.shields.io/badge/Ì∫Ä%20Try%20Live%20Demo-Click%20Here-ff6b6b?style=for-the-badge)](https://ai-alt-text-generator-six-black.vercel.app/static/index.html)
 
-## **‚ú® Features**
+Visit the live project: [https://ai-alt-text-generator-six-black.vercel.app/static/index.html](https://ai-alt-text-generator-six-black.vercel.app/static/index.html)
 
-- Ì¥ñ **AI Vision** ‚Äì Generates alt text using Google Gemini  
-- ‚öôÔ∏è **Smart Formatting** ‚Äì Follows accessibility rules (simple language, no unnecessary details)  
-- Ìæ® **Clean UI** ‚Äì Drag & drop image upload with preview  
-- ‚ôø **Accessible Design** ‚Äì High contrast + dark mode support  
-- Ì≥ã **Copy in One Click** ‚Äì Quickly copy generated text  
+## :hammer_and_wrench: Tech Stack
+- **Backend**: Python, FastAPI, `google-generativeai`
+- **Frontend**: Vanilla HTML5, CSS3, JavaScript
+- **AI Model**: Google Gemini 2.5 Flash
+- **Deployment**: Vercel
 
----
+## :gear: Setup Instructions
 
-## **Ìª† Tech Stack**
-
-| Component | Technology |
-|-----------|------------|
-| **Backend** | Python, FastAPI |
-| **Frontend** | HTML, CSS, JavaScript |
-| **AI Model** | Gemini 2.5 Flash |
-| **Deployment** | Vercel |
-
----
-
-## **‚ö° Quick Setup**
-
-### **1. Clone Repository**
-```bash
-git clone https://github.com/Satyam15Saini/AI-Alt-Text-Generator.git
-cd AI-Alt-Text-Generator
-```
-
-### **2. Create Virtual Environment**
-```bash
-python -m venv venv
-source venv/bin/activate
-# Windows: venv\Scripts\activate
-```
-
-### **3. Install Dependencies**
-```bash
-pip install fastapi uvicorn python-multipart google-generativeai python-dotenv
-```
-
-### **4. Configure API Key**
-
-Create a `.env` file in the root directory:
-
-```env
-GEMINI_API_KEY=your_gemini_api_key_here
-```
-
-### **5. Run the Application**
-```bash
-uvicorn main:app --host 0.0.0.0 --port 8000
-```
-
-### **6. Open in Browser**
-
-Ì±â Visit: **[http://localhost:8000](http://localhost:8000)**
-
----
-
-## **Ì∫Ä Live Demo**
-
-Ì±â **[Try the Live Demo Now!](https://ai-alt-text-generator-six-black.vercel.app/static/index.html)**
-
----
-
-## **Ì≥ù License**
-
-This project is open source and available under the MIT License.
-
----
-
-**Made with ‚ù§Ô∏è by [Satyam15Saini](https://github.com/Satyam15Saini)**
+1. Clone the repository and navigate to the root directory.
+2. Create a virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: .\venv\Scripts\activate
+   ```
+3. Install the dependencies:
+   ```bash
+   pip install fastapi uvicorn python-multipart google-generativeai python-dotenv
+   ```
+4. Configure API Keys:
+   - Create a file named `.env` in the root folder.
+   - Add your Google Gemini API Key inside it:
+     ```env
+     GEMINI_API_KEY=your_gemini_api_key_here
+     ```
+5. Run the application:
+   ```bash
+   uvicorn main:app --host 0.0.0.0 --port 8000
+   ```
+6. Visit `http://localhost:8000` in your web browser.
