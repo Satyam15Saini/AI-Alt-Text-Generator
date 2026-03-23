@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI Image Alt-Text Generator - Generate highly accurate, WCAG-compliant short and long alt-text using Vision AI.">
+    <title>AI Image Alt-Text Generator</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Include icons support -->
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.2.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1><i class="fi fi-rr-magic-wand"></i> Alt-Text Generator</h1>
+            <p>Generate highly accurate, WCAG-compliant short and long alt-text using Vision AI.</p>
+        </header>
+
+        <main>
+            <section class="upload-section">
+                <div class="dropzone" id="dropzone" tabindex="0" aria-label="Image upload dropzone">
+                    <input type="file" id="fileInput" accept="image/png, image/jpeg, image/webp" hidden>
+                    <div class="dropzone-content" id="dropzoneContent">
+                        <i class="fi fi-rr-cloud-upload-alt upload-icon"></i>
+                        <h3>Drag & Drop your image here</h3>
+                        <p>or click to browse (PNG, JPG, WebP)</p>
+                    </div>
+                    <img id="imagePreview" class="image-preview" src="" alt="Image preview" hidden>
+                </div>
+
+                <div class="input-group">
+                    <label for="captionInput">Context / Caption (Optional)</label>
+                    <input type="text" id="captionInput" placeholder="e.g. A serene beach at sunset">
+                </div>
+
+                <button id="generateBtn" class="primary-btn" disabled>
+                    <span>Generate Alt Text</span>
+                    <i class="fi fi-rr-sparkles"></i>
+                </button>
+            </section>
+
+            <section class="results-section" id="resultsSection" aria-live="polite" hidden>
+                <div class="loading-state" id="loadingState" hidden>
+                    <div class="spinner"></div>
+                    <p>Analyzing image and generating text...</p>
+                </div>
+
+                <div class="error-state" id="errorState" hidden>
+                    <i class="fi fi-rr-exclamation"></i>
+                    <p id="errorMessage"></p>
+                </div>
+
+                <div class="results-content" id="resultsContent" hidden>
+                    <div class="result-card">
+                        <div class="card-header">
+                            <h3>Short Alt Text</h3>
+                            <button class="copy-btn" data-target="shortAltText" aria-label="Copy short alt text">
+                                <i class="fi fi-rr-copy"></i>
+                            </button>
+                        </div>
+                        <p class="result-text" id="shortAltText"></p>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="card-header">
+                            <h3>Long Alt Text</h3>
+                            <button class="copy-btn" data-target="longAltText" aria-label="Copy long alt text">
+                                <i class="fi fi-rr-copy"></i>
+                            </button>
+                        </div>
+                        <p class="result-text" id="longAltText"></p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+</html>
