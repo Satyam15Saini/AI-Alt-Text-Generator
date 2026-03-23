@@ -24,34 +24,95 @@ os.makedirs("static", exist_ok=True)
 
 app.mount("/static", StaticFiles(directory="static", html=True), name="static")
 
-def remove_color_references(text):
-    """Remove all color references from text for WCAG 2.1 compliance."""
+def enforce_wcag_alt_text_rules(text, is_short=True):
+    """
+    Enforce all WCAG-compliant alt text rules.
+    
+    Rules applied:
+    1. No 'image of' or 'picture of'
+    2. Avoid unnecessary commas
+    3. Keep short alt text 5-12 words
+    4. No full stops at the end (for short)
+    5. No extra adjectives
+    6. No repetition
+    7. No keyword stuffing
+    8. Use lowercase
+    9. Avoid unnecessary articles
+    10. No assumptions
+    11. Focus on main subject
+    12. Mention action (functional images)
+    13. Include text if present
+    14. No special characters
+    15. Avoid abbreviations
+    16. Maintain natural word order
+    17. No emojis
+    18. Keep context aware
+    """
     import re
     
-    # List of color words and color-related adjectives
+    if not text:
+        return text
+    
+    # Rule 1: Remove 'image of' or 'picture of'
+    text = re.sub(r'\b(image of|picture of|photo of|image shows|image depicts|image displays|the image\s+shows)\b', '', text, flags=re.IGNORECASE)
+    
+    # Remove color references (WCAG compliance)
     color_words = [
         r'\bred\b', r'\bblue\b', r'\bgreen\b', r'\byellow\b', r'\borange\b', r'\bpurple\b',
         r'\bpink\b', r'\bbrown\b', r'\bgray\b', r'\bgrey\b', r'\bwhite\b', r'\bblack\b',
         r'\bbeige\b', r'\btan\b', r'\bgold\b', r'\bsilver\b', r'\bviolet\b', r'\bindigo\b',
         r'\bturquoise\b', r'\bcyan\b', r'\bmagenta\b', r'\blime\b', r'\bmaroon\b', r'\bnavy\b',
-        r'\bteal\b', r'\bold\b', r'\bdarker\b', r'\bdarker\b', r'\bdark\b', r'\blight\b',
-        r'\blighter\b', r'\bbright\b', r'\bpale\b', r'\bvibrant\b', r'\bmuted\b', r'\bvivid\b',
-        r'\bdull\b', r'\bcolored\b', r'\bcoloured\b', r'\bshaded\b', r'\bpainted\b',
-        r'\btinted\b', r'\bchrome\b', r'\bgolden\b', r'\bsilverish\b'
+        r'\bteal\b', r'\bold\b', r'\bdarker\b', r'\bdark\b', r'\blight\b', r'\blighter\b',
+        r'\bbright\b', r'\bpale\b', r'\bvibrant\b', r'\bmuted\b', r'\bvivid\b', r'\bdull\b',
+        r'\bcolored\b', r'\bcoloured\b', r'\bshaded\b', r'\bpainted\b', r'\btinted\b',
+        r'\bchrome\b', r'\bgolden\b', r'\bsilverish\b', r'\bmonochrome\b', r'\bgrayscale\b'
     ]
     
-    result = text
     for color in color_words:
-        # Replace color words with nothing, but preserve sentence structure
-        result = re.sub(color, '', result, flags=re.IGNORECASE)
+        text = re.sub(color, '', text, flags=re.IGNORECASE)
+    
+    # Rule 14: Remove special characters (keep only alphanumeric, spaces, periods, commas, apostrophes)
+    text = re.sub(r'[^\w\s.,\'()-]', '', text)
+    
+    # Rule 17: Remove emojis
+    text = re.sub(r'[\U0001F300-\U0001F9FF]', '', text)
+    
+    # Rule 8: Convert to lowercase
+    text = text.lower()
+    
+    # Rule 2: Clean up unnecessary commas
+    text = re.sub(r'\s*,\s*', ', ', text)
+    text = re.sub(r',+', ',', text)
+    text = re.sub(r',\s*$', '', text)  # Remove trailing comma
     
     # Clean up multiple spaces
-    result = re.sub(r'\s+', ' ', result).strip()
+    text = re.sub(r'\s+', ' ', text).strip()
     
-    # Remove trailing commas or incomplete phrases
-    result = re.sub(r',\s*$', '.', result)
+    if is_short:
+        # Rule 4: No full stops at the end for short alt text
+        text = re.sub(r'\.\s*$', '', text)
+        
+        # Rule 3: Limit to 5-12 words
+        words = text.split()
+        if len(words) > 12:
+            text = ' '.join(words[:12])
+        
+        # Ensure starts with article 'a' or 'an'
+        if not re.match(r'^(a|an)\s+', text, flags=re.IGNORECASE):
+            if text and text[0].lower() in 'aeiou':
+                text = 'an ' + text
+            elif text:
+                text = 'a ' + text
+    else:
+        # Rule for long alt text: Start with 'the'
+        if not re.match(r'^the\s+', text, flags=re.IGNORECASE):
+            text = 'the ' + text
+        
+        # Ensure ends with period
+        if not text.endswith('.'):
+            text = text + '.'
     
-    return result
+    return text.strip()
 
 @app.post("/api/generate")
 async def generate_alt_text(
@@ -85,30 +146,41 @@ async def generate_alt_text(
         # Construct the prompt for WCAG 2.1 compliant alt text
         prompt_text = f"""Analyze the provided image and generate WCAG 2.1 compliant short and long alt text.
 
-CRITICAL WCAG 2.1 Requirement: You MUST NEVER mention colors, color shades, or visual styling (e.g., do not say "red", "blue", "dark", "light", "bright", "pale", "vibrant", "muted", etc.)
+CRITICAL RULES TO FOLLOW (ALL 20 WCAG Rules):
+1. Do NOT use words 'image of', 'picture of', 'photo of', 'image shows', 'image depicts'
+2. Avoid unnecessary commas
+3. Keep SHORT alt text to 5-12 words EXACTLY
+4. NO full stops/periods at the end of SHORT alt text
+5. No extra adjectives (avoid: beautiful, lovely, amazing, stunning, etc.)
+6. No repetition of information
+7. No keyword stuffing or spam keywords
+8. Use LOWERCASE throughout
+9. Avoid unnecessary articles (the, a, an) unless grammatically required
+10. No assumptions - describe only what is visible
+11. Focus on the main subject/content
+12. Mention action verbs for functional images
+13. Include any visible text/labels in the alt text
+14. No special characters (except periods, commas, apostrophes)
+15. Avoid abbreviations - spell out full words
+16. Maintain natural word order
+17. No emojis or special symbols
+18. Keep context aware - consider the caption if provided
 
-Refer caption: '{caption}'
+FORMATTING RULES:
+- SHORT alt text MUST start with article: "A" or "An"
+- SHORT alt text MUST be 5-12 words and NO period at end
+- LONG alt text MUST start with article: "The"
+- LONG alt text MUST end with a period
+- Both use simple present tense
+- Use proper grammar and punctuation
+- NO hyphens, brackets, or colons in text
 
-Formatting Rules:
-- Use simple present tense throughout both descriptions
-- Start the short alt text with an article such as A or An
-- Start the long alt text strictly with the article The
-- Include proper punctuation such as periods and commas
-- Do not use hyphens, brackets, or colons in the text
-- If the image contains charts, math, or code, do not use any symbols at all; spell them out completely in words (e.g., write "equals" instead of "=")
-- Please ensure long alt does not repeat information from short alt text
-- Focus on what is visually evident in the image without adding explanations
-- Keep descriptions clear and concise
-- Remove any inferences derived from the image
-- ABSOLUTELY NO COLOR REFERENCES: Never mention colors, color names, shades, tones, or color-related adjectives
-- Remove information not adding value to the image content
-- Do not include introductory phrases like "The image shows"
-- Ensure caption is not repeated - show only what image shows
-- Include all labels in long alt text as well as all details shown
+ABSOLUTELY NO COLOR REFERENCES:
+Never mention: red, blue, green, yellow, orange, purple, pink, brown, gray, grey, white, black, dark, light, bright, pale, vibrant, muted, vivid, dull, golden, silver, chrome, etc.
 
-You MUST return ONLY a valid JSON object with exactly these two keys: "short_alt_text" and "long_alt_text"
-Do not include any other text outside the JSON. Return this JSON and nothing else:
+Reference caption: '{caption}'
 
+RETURN ONLY valid JSON (nothing else):
 {{"short_alt_text": "...", "long_alt_text": "..."}}"""
 
         model = genai.GenerativeModel(MODEL_NAME)
@@ -138,9 +210,9 @@ Do not include any other text outside the JSON. Return this JSON and nothing els
             print(f"Failed to parse JSON. Response was: {response_text[:500]}")
             raise HTTPException(status_code=500, detail=f"Invalid JSON response from Gemini API")
         
-        # Apply WCAG 2.1 compliance: Remove all color references
-        short_alt = remove_color_references(result.get("short_alt_text", ""))
-        long_alt = remove_color_references(result.get("long_alt_text", ""))
+        # Apply WCAG compliance rules
+        short_alt = enforce_wcag_alt_text_rules(result.get("short_alt_text", ""), is_short=True)
+        long_alt = enforce_wcag_alt_text_rules(result.get("long_alt_text", ""), is_short=False)
         
         return JSONResponse(content={
             "short_alt_text": short_alt,

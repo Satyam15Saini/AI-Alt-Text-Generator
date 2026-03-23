@@ -1,4 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Tab switching functionality
+    const navBtns = document.querySelectorAll('.nav-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    navBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tabName = btn.getAttribute('data-tab');
+            
+            // Remove active class from all buttons and tabs
+            navBtns.forEach(b => b.classList.remove('active'));
+            tabContents.forEach(tab => tab.hidden = true);
+            
+            // Add active class to clicked button and show corresponding tab
+            btn.classList.add('active');
+            document.getElementById(`${tabName}-tab`).hidden = false;
+        });
+    });
+
     const dropzone = document.getElementById('dropzone');
     const fileInput = document.getElementById('fileInput');
     const imagePreview = document.getElementById('imagePreview');

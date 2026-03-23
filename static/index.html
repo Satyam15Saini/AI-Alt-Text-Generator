@@ -17,62 +17,142 @@
             <p>Generate highly accurate, WCAG-compliant short and long alt-text using Vision AI.</p>
         </header>
 
+        <nav class="nav-tabs">
+            <button class="nav-btn active" data-tab="generator">Generator</button>
+            <button class="nav-btn" data-tab="rules">WCAG Rules</button>
+        </nav>
+
         <main>
-            <section class="upload-section">
-                <div class="dropzone" id="dropzone" tabindex="0" aria-label="Image upload dropzone">
-                    <input type="file" id="fileInput" accept="image/png, image/jpeg, image/webp" hidden>
-                    <div class="dropzone-content" id="dropzoneContent">
-                        <i class="fi fi-rr-cloud-upload-alt upload-icon"></i>
-                        <h3>Drag & Drop your image here</h3>
-                        <p>or click to browse (PNG, JPG, WebP)</p>
-                    </div>
-                    <img id="imagePreview" class="image-preview" src="" alt="Image preview" hidden>
-                </div>
-
-                <div class="input-group">
-                    <label for="captionInput">Context / Caption (Optional)</label>
-                    <input type="text" id="captionInput" placeholder="e.g. A serene beach at sunset">
-                </div>
-
-                <button id="generateBtn" class="primary-btn" disabled>
-                    <span>Generate Alt Text</span>
-                    <i class="fi fi-rr-sparkles"></i>
-                </button>
-            </section>
-
-            <section class="results-section" id="resultsSection" aria-live="polite" hidden>
-                <div class="loading-state" id="loadingState" hidden>
-                    <div class="spinner"></div>
-                    <p>Analyzing image and generating text...</p>
-                </div>
-
-                <div class="error-state" id="errorState" hidden>
-                    <i class="fi fi-rr-exclamation"></i>
-                    <p id="errorMessage"></p>
-                </div>
-
-                <div class="results-content" id="resultsContent" hidden>
-                    <div class="result-card">
-                        <div class="card-header">
-                            <h3>Short Alt Text</h3>
-                            <button class="copy-btn" data-target="shortAltText" aria-label="Copy short alt text">
-                                <i class="fi fi-rr-copy"></i>
-                            </button>
+            <div id="generator-tab" class="tab-content active">
+                <section class="upload-section">
+                    <div class="dropzone" id="dropzone" tabindex="0" aria-label="Image upload dropzone">
+                        <input type="file" id="fileInput" accept="image/png, image/jpeg, image/webp" hidden>
+                        <div class="dropzone-content" id="dropzoneContent">
+                            <i class="fi fi-rr-cloud-upload-alt upload-icon"></i>
+                            <h3>Drag & Drop your image here</h3>
+                            <p>or click to browse (PNG, JPG, WebP)</p>
                         </div>
-                        <p class="result-text" id="shortAltText"></p>
+                        <img id="imagePreview" class="image-preview" src="" alt="Image preview" hidden>
                     </div>
 
-                    <div class="result-card">
-                        <div class="card-header">
-                            <h3>Long Alt Text</h3>
-                            <button class="copy-btn" data-target="longAltText" aria-label="Copy long alt text">
-                                <i class="fi fi-rr-copy"></i>
-                            </button>
-                        </div>
-                        <p class="result-text" id="longAltText"></p>
+                    <div class="input-group">
+                        <label for="captionInput">Context / Caption (Optional)</label>
+                        <input type="text" id="captionInput" placeholder="e.g. A serene beach at sunset">
                     </div>
-                </div>
-            </section>
+
+                    <button id="generateBtn" class="primary-btn" disabled>
+                        <span>Generate Alt Text</span>
+                        <i class="fi fi-rr-sparkles"></i>
+                    </button>
+                </section>
+
+                <section class="results-section" id="resultsSection" aria-live="polite" hidden>
+                    <div class="loading-state" id="loadingState" hidden>
+                        <div class="spinner"></div>
+                        <p>Analyzing image and generating text...</p>
+                    </div>
+
+                    <div class="error-state" id="errorState" hidden>
+                        <i class="fi fi-rr-exclamation"></i>
+                        <p id="errorMessage"></p>
+                    </div>
+
+                    <div class="results-content" id="resultsContent" hidden>
+                        <div class="result-card">
+                            <div class="card-header">
+                                <h3>Short Alt Text</h3>
+                                <button class="copy-btn" data-target="shortAltText" aria-label="Copy short alt text">
+                                    <i class="fi fi-rr-copy"></i>
+                                </button>
+                            </div>
+                            <p class="result-text" id="shortAltText"></p>
+                        </div>
+
+                        <div class="result-card">
+                            <div class="card-header">
+                                <h3>Long Alt Text</h3>
+                                <button class="copy-btn" data-target="longAltText" aria-label="Copy long alt text">
+                                    <i class="fi fi-rr-copy"></i>
+                                </button>
+                            </div>
+                            <p class="result-text" id="longAltText"></p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div id="rules-tab" class="tab-content" hidden>
+                <section class="rules-section">
+                    <h2>WCAG Compliance Rules</h2>
+                    
+                    <div class="rules-container">
+                        <div class="rules-group">
+                            <h3>Alt Text Rules (20 WCAG Guidelines)</h3>
+                            <ol class="rules-list">
+                                <li><strong>No 'image of':</strong> Avoid words like 'image of', 'picture of', 'photo of'</li>
+                                <li><strong>Avoid commas:</strong> Use commas only when grammatically necessary</li>
+                                <li><strong>Keep short:</strong> Short alt text must be 5–12 words</li>
+                                <li><strong>No full stops:</strong> Simple alt text should not end with a period</li>
+                                <li><strong>No extra adjectives:</strong> Avoid descriptive words like 'beautiful', 'lovely', 'amazing'</li>
+                                <li><strong>No repetition:</strong> Don't repeat the same information</li>
+                                <li><strong>No keyword stuffing:</strong> Avoid spam keywords</li>
+                                <li><strong>Use lowercase:</strong> Keep alt text in lowercase</li>
+                                <li><strong>Avoid articles:</strong> Skip 'the', 'a', 'an' unless needed for grammar</li>
+                                <li><strong>No assumptions:</strong> Describe only what is visible</li>
+                                <li><strong>Main subject:</strong> Focus on the primary content</li>
+                                <li><strong>Mention action:</strong> Include action verbs for functional images</li>
+                                <li><strong>Include text:</strong> Always include visible text and labels</li>
+                                <li><strong>No special characters:</strong> Avoid symbols except periods, commas, apostrophes</li>
+                                <li><strong>Avoid abbreviations:</strong> Spell out full words</li>
+                                <li><strong>Natural word order:</strong> Maintain normal sentence structure</li>
+                                <li><strong>No emojis:</strong> Exclude all emoji characters</li>
+                                <li><strong>No color references:</strong> Never mention colors or color-related words</li>
+                                <li><strong>Context aware:</strong> Consider provided captions and context</li>
+                                <li><strong>Clear & concise:</strong> Be brief and to the point</li>
+                            </ol>
+                        </div>
+
+                        <div class="rules-group">
+                            <h3>Formatting Rules</h3>
+                            <div class="formatting-rules">
+                                <div class="rule-item">
+                                    <h4>Short Alt Text</h4>
+                                    <ul>
+                                        <li>Start with "A" or "An" article</li>
+                                        <li>Keep to 5–12 words exactly</li>
+                                        <li>No period at the end</li>
+                                        <li>Use simple present tense</li>
+                                        <li>Example: <code>a person typing on a laptop</code></li>
+                                    </ul>
+                                </div>
+                                <div class="rule-item">
+                                    <h4>Long Alt Text</h4>
+                                    <ul>
+                                        <li>Start with "The" article</li>
+                                        <li>Include complete details</li>
+                                        <li>End with a period</li>
+                                        <li>Use simple present tense</li>
+                                        <li>Don't repeat short alt text details</li>
+                                        <li>Example: <code>The workspace shows a person seated at a desk typing on a modern laptop with multiple monitors displaying code.</code></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rules-group">
+                            <h3>What NOT to Include</h3>
+                            <ul class="dont-list">
+                                <li>❌ Color names or descriptions: red, blue, dark, light, vibrant, muted</li>
+                                <li>❌ Introductory phrases: "The image shows", "This shows", "Image of"</li>
+                                <li>❌ Abbreviations: use "and" instead of "&", spell out "approximately"</li>
+                                <li>❌ Special characters: hyphens, brackets, colons, mathematical symbols</li>
+                                <li>❌ Assumptions or inferences not visible in the image</li>
+                                <li>❌ Repetitive information</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </main>
     </div>
     <script src="/static/script.js"></script>
