@@ -74,14 +74,9 @@ Please ensure not to give any colour details in the alt text.
 Please return the response as a valid JSON object with EXACTLY these two keys: "short_alt_text" and "long_alt_text"."""
 
         model = genai.GenerativeModel(MODEL_NAME)
-        # Using structured JSON output
-        generation_config = genai.GenerationConfig(
-            response_mime_type="application/json"
-        )
         
         response = model.generate_content(
-            contents=[prompt_text, image_parts[0]],
-            generation_config=generation_config
+            contents=[prompt_text, image_parts[0]]
         )
         
         # Parse JSON string from response
