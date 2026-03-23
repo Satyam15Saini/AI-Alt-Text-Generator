@@ -24,6 +24,35 @@ os.makedirs("static", exist_ok=True)
 
 app.mount("/static", StaticFiles(directory="static", html=True), name="static")
 
+def remove_color_references(text):
+    """Remove all color references from text for WCAG 2.1 compliance."""
+    import re
+    
+    # List of color words and color-related adjectives
+    color_words = [
+        r'\bred\b', r'\bblue\b', r'\bgreen\b', r'\byellow\b', r'\borange\b', r'\bpurple\b',
+        r'\bpink\b', r'\bbrown\b', r'\bgray\b', r'\bgrey\b', r'\bwhite\b', r'\bblack\b',
+        r'\bbeige\b', r'\btan\b', r'\bgold\b', r'\bsilver\b', r'\bviolet\b', r'\bindigo\b',
+        r'\bturquoise\b', r'\bcyan\b', r'\bmagenta\b', r'\blime\b', r'\bmaroon\b', r'\bnavy\b',
+        r'\bteal\b', r'\bold\b', r'\bdarker\b', r'\bdarker\b', r'\bdark\b', r'\blight\b',
+        r'\blighter\b', r'\bbright\b', r'\bpale\b', r'\bvibrant\b', r'\bmuted\b', r'\bvivid\b',
+        r'\bdull\b', r'\bcolored\b', r'\bcoloured\b', r'\bshaded\b', r'\bpainted\b',
+        r'\btinted\b', r'\bchrome\b', r'\bgolden\b', r'\bsilverish\b'
+    ]
+    
+    result = text
+    for color in color_words:
+        # Replace color words with nothing, but preserve sentence structure
+        result = re.sub(color, '', result, flags=re.IGNORECASE)
+    
+    # Clean up multiple spaces
+    result = re.sub(r'\s+', ' ', result).strip()
+    
+    # Remove trailing commas or incomplete phrases
+    result = re.sub(r',\s*$', '.', result)
+    
+    return result
+
 @app.post("/api/generate")
 async def generate_alt_text(
     image: UploadFile = File(...),
@@ -53,8 +82,10 @@ async def generate_alt_text(
             }
         ]
 
-        # Construct the prompt exactly as requested by the user
-        prompt_text = f"""Analyze the provided image and generate both short alt text and long alt text following these guidelines:
+        # Construct the prompt for WCAG 2.1 compliant alt text
+        prompt_text = f"""Analyze the provided image and generate WCAG 2.1 compliant short and long alt text.
+
+CRITICAL WCAG 2.1 Requirement: You MUST NEVER mention colors, color shades, or visual styling (e.g., do not say "red", "blue", "dark", "light", "bright", "pale", "vibrant", "muted", etc.)
 
 Refer caption: '{caption}'
 
@@ -69,8 +100,8 @@ Formatting Rules:
 - Focus on what is visually evident in the image without adding explanations
 - Keep descriptions clear and concise
 - Remove any inferences derived from the image
-- Please ensure not to give any colour details in the alt text
-- Remove information not adding value to the image content (like colour of bedsheet, wall etc.)
+- ABSOLUTELY NO COLOR REFERENCES: Never mention colors, color names, shades, tones, or color-related adjectives
+- Remove information not adding value to the image content
 - Do not include introductory phrases like "The image shows"
 - Ensure caption is not repeated - show only what image shows
 - Include all labels in long alt text as well as all details shown
@@ -107,9 +138,13 @@ Do not include any other text outside the JSON. Return this JSON and nothing els
             print(f"Failed to parse JSON. Response was: {response_text[:500]}")
             raise HTTPException(status_code=500, detail=f"Invalid JSON response from Gemini API")
         
+        # Apply WCAG 2.1 compliance: Remove all color references
+        short_alt = remove_color_references(result.get("short_alt_text", ""))
+        long_alt = remove_color_references(result.get("long_alt_text", ""))
+        
         return JSONResponse(content={
-            "short_alt_text": result.get("short_alt_text", ""),
-            "long_alt_text": result.get("long_alt_text", "")
+            "short_alt_text": short_alt,
+            "long_alt_text": long_alt
         })
 
     except Exception as e:
