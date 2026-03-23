@@ -1,20 +1,32 @@
 # AI-Powered Image Alt-Text Generator
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Now-brightgreen?style=for-the-badge&logo=vercel)](https://ai-alt-text-generator-six-black.vercel.app/static/index.html)
+[![Python](https://img.shields.io/badge/Python-3.9+-blue?style=flat&logo=python)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110-brightgreen?style=flat&logo=fastapi)](https://fastapi.tiangolo.com)
+[![License](https://img.shields.io/badge/License-MIT-yellow?style=flat)](LICENSE)
+
 A web application that automatically generates highly accurate, WCAG-compliant short and long alt-text for uploaded images using the Google Gemini (`gemini-2.5-flash`) Generative AI vision model via REST API.
 
-## Features
-- **Generative AI Vision**: Automatically analyzes images to generate accessibility-ready alt text.
-- **Strict Formatting Engine**: Enforces accessibility rules natively (e.g., specific starting articles, simple present tense, no symbols for math/charts, no inferences/colors).
-- **Intuitive Web Interface**: Built with modern HTML/CSS/JS, featuring a drag-and-drop zone and image previews.
-- **Accessible Design (WCAG)**: Dark mode layout with high-contrast UI and immediate feedback states.
-- **1-Click Copy**: Easily copy the generated short or long alt text to your clipboard.
+## :sparkles: Features
+- **:robot: Generative AI Vision**: Automatically analyzes images to generate accessibility-ready alt text.
+- **:gear: Strict Formatting Engine**: Enforces accessibility rules natively (e.g., specific starting articles, simple present tense, no symbols for math/charts, no inferences/colors).
+- **:art: Intuitive Web Interface**: Built with modern HTML/CSS/JS, featuring a drag-and-drop zone and image previews.
+- **:wheelchair: Accessible Design (WCAG)**: Dark mode layout with high-contrast UI and immediate feedback states.
+- **:clipboard: 1-Click Copy**: Easily copy the generated short or long alt text to your clipboard.
 
-## Tech Stack
+## :rocket: Live Demo
+
+[![Try it Live](https://img.shields.io/badge/🚀%20Try%20Live%20Demo-Click%20Here-ff6b6b?style=for-the-badge)](https://ai-alt-text-generator-six-black.vercel.app/static/index.html)
+
+Visit the live project: [https://ai-alt-text-generator-six-black.vercel.app/static/index.html](https://ai-alt-text-generator-six-black.vercel.app/static/index.html)
+
+## :hammer_and_wrench: Tech Stack
 - **Backend**: Python, FastAPI, `google-generativeai`
 - **Frontend**: Vanilla HTML5, CSS3, JavaScript
 - **AI Model**: Google Gemini 2.5 Flash
+- **Deployment**: Vercel
 
-## Setup Instructions
+## :gear: Setup Instructions
 
 1. Clone the repository and navigate to the root directory.
 2. Create a virtual environment:
