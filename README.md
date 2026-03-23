@@ -1,10 +1,5 @@
 # AI-Powered Image Alt-Text Generator
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Now-brightgreen?style=for-the-badge&logo=vercel)](https://ai-alt-text-generator-six-black.vercel.app/static/index.html)
-[![Python](https://img.shields.io/badge/Python-3.9+-blue?style=flat&logo=python)](https://python.org)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.110-brightgreen?style=flat&logo=fastapi)](https://fastapi.tiangolo.com)
-[![License](https://img.shields.io/badge/License-MIT-yellow?style=flat)](LICENSE)
-
 A web application that automatically generates highly accurate, WCAG-compliant short and long alt-text for uploaded images using the Google Gemini (`gemini-2.5-flash`) Generative AI vision model via REST API.
 
 ## :sparkles: Features
@@ -16,7 +11,7 @@ A web application that automatically generates highly accurate, WCAG-compliant s
 
 ## :rocket: Live Demo
 
-[![Try it Live](https://img.shields.io/badge/íº€%20Try%20Live%20Demo-Click%20Here-ff6b6b?style=for-the-badge)](https://ai-alt-text-generator-six-black.vercel.app/static/index.html)
+[![Try it Live](https://img.shields.io/badge/ï¿½ï¿½ï¿½%20Try%20Live%20Demo-Click%20Here-ff6b6b?style=for-the-badge)](https://ai-alt-text-generator-six-black.vercel.app/static/index.html)
 
 Visit the live project: [https://ai-alt-text-generator-six-black.vercel.app/static/index.html](https://ai-alt-text-generator-six-black.vercel.app/static/index.html)
 
