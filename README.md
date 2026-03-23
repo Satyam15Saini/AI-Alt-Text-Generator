@@ -11,8 +11,6 @@ A web application that automatically generates highly accurate, WCAG-compliant s
 
 ## :rocket: Live Demo
 
-[![Try it Live](https://img.shields.io/badge/���%20Try%20Live%20Demo-Click%20Here-ff6b6b?style=for-the-badge)](https://ai-alt-text-generator-six-black.vercel.app/static/index.html)
-
 Visit the live project: [https://ai-alt-text-generator-six-black.vercel.app/static/index.html](https://ai-alt-text-generator-six-black.vercel.app/static/index.html)
 
 ## :hammer_and_wrench: Tech Stack
