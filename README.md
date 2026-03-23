@@ -1,51 +1,41 @@
-# AI-Powered Image Alt-Text Generator
+🚀 AI-Powered Image Alt-Text Generator
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Now-brightgreen?style=for-the-badge&logo=vercel)](https://ai-alt-text-generator-six-black.vercel.app/static/index.html)
-[![Python](https://img.shields.io/badge/Python-3.9+-blue?style=flat&logo=python)](https://python.org)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.110-brightgreen?style=flat&logo=fastapi)](https://fastapi.tiangolo.com)
-[![License](https://img.shields.io/badge/License-MIT-yellow?style=flat)](LICENSE)
+🔗 Live Demo:
+👉 https://ai-alt-text-generator-six-black.vercel.app/static/index.html
 
-A web application that automatically generates highly accurate, WCAG-compliant short and long alt-text for uploaded images using the Google Gemini (`gemini-2.5-flash`) Generative AI vision model via REST API.
+🌟 Overview
 
-## :sparkles: Features
-- **:robot: Generative AI Vision**: Automatically analyzes images to generate accessibility-ready alt text.
-- **:gear: Strict Formatting Engine**: Enforces accessibility rules natively (e.g., specific starting articles, simple present tense, no symbols for math/charts, no inferences/colors).
-- **:art: Intuitive Web Interface**: Built with modern HTML/CSS/JS, featuring a drag-and-drop zone and image previews.
-- **:wheelchair: Accessible Design (WCAG)**: Dark mode layout with high-contrast UI and immediate feedback states.
-- **:clipboard: 1-Click Copy**: Easily copy the generated short or long alt text to your clipboard.
+A web application that generates accurate, accessibility-friendly alt text for images using AI.
+It helps make images WCAG-compliant by producing both short and long descriptions automatically.
 
-## :rocket: Live Demo
+✨ Features
+🤖 AI Vision – Generates alt text using Google Gemini
+⚙️ Smart Formatting – Follows accessibility rules (simple language, no unnecessary details)
+🎨 Clean UI – Drag & drop image upload with preview
+♿ Accessible Design – High contrast + dark mode support
+📋 Copy in One Click – Quickly copy generated text
+🛠 Tech Stack
+Backend: Python, FastAPI
+Frontend: HTML, CSS, JavaScript
+AI Model: Gemini 2.5 Flash
+Deployment: Vercel
+⚡ Setup
+1. Clone repo
+git clone <your-repo-url>
+cd <repo-folder>
+2. Create virtual environment
+python -m venv venv
+source venv/bin/activate
+# Windows: venv\Scripts\activate
+3. Install dependencies
+pip install fastapi uvicorn python-multipart google-generativeai python-dotenv
+4. Add API key
 
-[![Try it Live](https://img.shields.io/badge/🚀%20Try%20Live%20Demo-Click%20Here-ff6b6b?style=for-the-badge)](https://ai-alt-text-generator-six-black.vercel.app/static/index.html)
+Create .env file:
 
-Visit the live project: [https://ai-alt-text-generator-six-black.vercel.app/static/index.html](https://ai-alt-text-generator-six-black.vercel.app/static/index.html)
+GEMINI_API_KEY=your_api_key_here
+5. Run project
+uvicorn main:app --host 0.0.0.0 --port 8000
+6. Open in browser
 
-## :hammer_and_wrench: Tech Stack
-- **Backend**: Python, FastAPI, `google-generativeai`
-- **Frontend**: Vanilla HTML5, CSS3, JavaScript
-- **AI Model**: Google Gemini 2.5 Flash
-- **Deployment**: Vercel
-
-## :gear: Setup Instructions
-
-1. Clone the repository and navigate to the root directory.
-2. Create a virtual environment:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: .\venv\Scripts\activate
-   ```
-3. Install the dependencies:
-   ```bash
-   pip install fastapi uvicorn python-multipart google-generativeai python-dotenv
-   ```
-4. Configure API Keys:
-   - Create a file named `.env` in the root folder.
-   - Add your Google Gemini API Key inside it:
-     ```env
-     GEMINI_API_KEY=your_gemini_api_key_here
-     ```
-5. Run the application:
-   ```bash
-   uvicorn main:app --host 0.0.0.0 --port 8000
-   ```
-6. Visit `http://localhost:8000` in your web browser.
+👉 http://localhost:8000
