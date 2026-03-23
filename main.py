@@ -54,24 +54,31 @@ async def generate_alt_text(
         ]
 
         # Construct the prompt exactly as requested by the user
-        prompt_text = f"""Analyze the provided image and generate both short alt text and long alt text following these guidelines
-Refer caption '{caption}'
-Formatting Rules:
-· Use simple present tense throughout both descriptions
-· Start the short alt text with an article such as A or An
-· Start the long alt text strictly with the article The
-· Include proper punctuation such as periods and commas
-· Do not use hyphens brackets colons in the text
-· If the image contains charts, math, or code, do not use any symbols at all; spell them out completely in words (e.g., write "equals" instead of "=").
-· Please ensure long alt does not repeat information from short alt text
-· Focus on what is visually evident in the image without adding explanations unless requested
-· Keep descriptions clear and concise
-· Remove any inferences derived from the image
-Please ensure not to give any colour details in the alt text.
-· Remove information not adding value to the image content- like colour of bedsheet, wall etc. Do not include introductory phrases like "The image shows."
-- Ensure caption is not repeated- show only what image shows- include all labels in long alt text as well as all details shown
+        prompt_text = f"""Analyze the provided image and generate both short alt text and long alt text following these guidelines:
 
-Please return the response as a valid JSON object with EXACTLY these two keys: "short_alt_text" and "long_alt_text"."""
+Refer caption: '{caption}'
+
+Formatting Rules:
+- Use simple present tense throughout both descriptions
+- Start the short alt text with an article such as A or An
+- Start the long alt text strictly with the article The
+- Include proper punctuation such as periods and commas
+- Do not use hyphens, brackets, or colons in the text
+- If the image contains charts, math, or code, do not use any symbols at all; spell them out completely in words (e.g., write "equals" instead of "=")
+- Please ensure long alt does not repeat information from short alt text
+- Focus on what is visually evident in the image without adding explanations
+- Keep descriptions clear and concise
+- Remove any inferences derived from the image
+- Please ensure not to give any colour details in the alt text
+- Remove information not adding value to the image content (like colour of bedsheet, wall etc.)
+- Do not include introductory phrases like "The image shows"
+- Ensure caption is not repeated - show only what image shows
+- Include all labels in long alt text as well as all details shown
+
+You MUST return ONLY a valid JSON object with exactly these two keys: "short_alt_text" and "long_alt_text"
+Do not include any other text outside the JSON. Return this JSON and nothing else:
+
+{{"short_alt_text": "...", "long_alt_text": "..."}}"""
 
         model = genai.GenerativeModel(MODEL_NAME)
         
@@ -80,7 +87,25 @@ Please return the response as a valid JSON object with EXACTLY these two keys: "
         )
         
         # Parse JSON string from response
-        result = json.loads(response.text)
+        response_text = response.text.strip()
+        
+        # Try to extract JSON if it's embedded in the response
+        if response_text.startswith('{'):
+            json_str = response_text
+        else:
+            # Look for JSON block in the response
+            import re
+            json_match = re.search(r'\{.*\}', response_text, re.DOTALL)
+            if json_match:
+                json_str = json_match.group(0)
+            else:
+                json_str = response_text
+        
+        try:
+            result = json.loads(json_str)
+        except json.JSONDecodeError as e:
+            print(f"Failed to parse JSON. Response was: {response_text[:500]}")
+            raise HTTPException(status_code=500, detail=f"Invalid JSON response from Gemini API")
         
         return JSONResponse(content={
             "short_alt_text": result.get("short_alt_text", ""),
